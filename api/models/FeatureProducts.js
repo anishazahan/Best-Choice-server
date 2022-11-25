@@ -13,10 +13,7 @@ const FeatureProductSchema = new mongoose.Schema({
         min: 0,
         max: 1000000
     },
-    category: {
-        type: String,
-        required: true
-    },
+   
     description1: {
         type: String,
         required: true,
@@ -43,7 +40,7 @@ const FeatureProductSchema = new mongoose.Schema({
         type: String,
     },
     fetaure : {
-        type: String,
+        type: Array,
         required: true,
     },
 },

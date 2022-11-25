@@ -43,7 +43,7 @@ const productSchema = new mongoose.Schema({
         type: String,
     },
     fetaure : {
-        type: String,
+        type: Array,
         required: true,
     },
 },

@@ -1,4 +1,5 @@
 const Product = require('../models/Product')
+const FeatureProducts = require('../models/FeatureProducts')
 const asyncHandler = require('express-async-handler')
 
 // @desc Get all product
@@ -19,17 +20,56 @@ const getAllProducts = asyncHandler(async (req, res) => {
 // @route POST /product
 // @access Private
 const createNewProduct = asyncHandler(async (req, res) => {
-    const { title, price, category, description } = req.body
+    const { name, price, category, description } = req.body
 
     // Confirm data
-    if (!title || !price || !Array.isArray(category) || !description) {
+    if (!name || !price || !Array.isArray(category) || !description) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
-    const productObject = { title, price, category, description }
+    const productObject = { name, price, category, description }
 
     // Create and store new user 
     const product = await Product.create(productObject)
+
+    if (product) { //created 
+        res.status(201).json({ message: `Product created` })
+    } else {
+        res.status(400).json({ message: 'Invalid user data received' })
+    }
+})
+const createFeatureProduct = asyncHandler(async (req, res) => {
+    const { img,
+        name,
+        brand,
+        Weight,
+        sku,
+        price,
+        description1,
+        descriptionTittle1,
+        description2,
+        descriptionTittle2,
+        fetaure} = req.body
+
+    // Confirm data
+    if (!name || !img || !brand || !description1 || !descriptionTittle1 || !description2 ||!descriptionTittle2 || !Array.isArray( fetaure) || !sku || ! Weight || !price) {
+        return res.status(400).json({ message: 'All fields are required' })
+    }
+
+    const productObject = {  img,
+        name,
+        brand,
+        Weight,
+        sku,
+        price,
+        description1,
+        descriptionTittle1,
+        description2,
+        descriptionTittle2,
+        fetaure }
+
+    // Create and store new user 
+    const product = await FeatureProducts.create(productObject)
 
     if (product) { //created 
         res.status(201).json({ message: `Product created` })
@@ -42,10 +82,10 @@ const createNewProduct = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateProduct = asyncHandler(async (req, res) => {
-    const { id, title, price, category, description } = req.body
+    const { id, name, price, category, description } = req.body
 
     // Confirm data 
-    if (!id || !title || !price || !Array.isArray(category) || !description) {
+    if (!id || !name || !price || !Array.isArray(category) || !description) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
@@ -56,7 +96,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'Product not found' })
     }
 
-    product.title = title
+    product.name = name
     product.price = price
     product.category = category
     product.description = description
@@ -95,5 +135,8 @@ module.exports = {
     getAllProducts,
     createNewProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    createFeatureProduct
 }
+
+
